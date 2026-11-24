@@ -6,7 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Slotgun_Core.unity
+    guid: 78d9436049741414185b72b35915f5c5
+  - enabled: 1
+    path: Assets/Scenes/Slotgun_Sector_1.unity
+    guid: 33dde3200df9c4445a3fa329be88b7aa
+  - enabled: 1
+    path: Assets/Scenes/Slotgun_Sector_2.unity
+    guid: 859fb5a097628de4ebdac8eb59762c6c
+  - enabled: 1
+    path: Assets/Scenes/Slotgun_Sector_3.unity
+    guid: bcc2a7d8c80206f4c843001b994c7dbe
+  - enabled: 1
+    path: Assets/Scenes/Slotgun_Sector_4.unity
+    guid: abcb05cb8c6142b4dbb97da608102574
+  - enabled: 1
+    path: Assets/Scenes/Slotgun_Sector_5.unity
+    guid: 7227e61edbaedda41b5fefaab958c3c4
+  - enabled: 1
+    path: Assets/Scenes/Slotgun_PrepRoom.unity
+    guid: 48222337a52899840a0487fde1a53962
   m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

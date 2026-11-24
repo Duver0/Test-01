@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc28e132f8bef4445bb63425292ea865, type: 3}
+  m_Name: Sector_05
+  m_EditorClassIdentifier: Assembly-CSharp::Slotgun.SectorDefinition
+  displayName: ALTAR DEL JACKPOT
+  sceneName: Slotgun_Sector_5
+  arenaRadius: 42
+  wallHeight: 11.8
+  pattern: 4
+  floorTint: {r: 0.44658825, g: 0.24513726, b: 0.30902746, a: 1}
+  wallTint: {r: 0.55592155, g: 0.31317648, b: 0.52280784, a: 1}
+  accent: {r: 1, g: 0.52254903, b: 0.21627451, a: 1}
+  fogDensity: 0.0064000003

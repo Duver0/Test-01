@@ -1,0 +1,9 @@
+  Determinando los proyectos que se van a restaurar...
+  Se ha restaurado C:\Users\duver_f40dzl4\Test-01\Assembly-CSharp.csproj (en 89 ms).
+  Assembly-CSharp -> C:\Users\duver_f40dzl4\Test-01\Temp\bin\Debug\Assembly-CSharp.dll
+
+Compilación correcta.
+    0 Advertencia(s)
+    0 Errores
+
+Tiempo transcurrido 00:00:05.66

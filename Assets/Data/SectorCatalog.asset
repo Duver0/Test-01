@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59fb201c40f8bd548a3f979a93642019, type: 3}
+  m_Name: SectorCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::Slotgun.SectorCatalog
+  sectors:
+  - {fileID: 11400000, guid: 65db5ca31bb6844468cd441e4e7a7ea2, type: 2}
+  - {fileID: 11400000, guid: bc06e135c5001b6488ea80e86747e830, type: 2}
+  - {fileID: 11400000, guid: 4493c8615f007494883f5d25b15a53f5, type: 2}
+  - {fileID: 11400000, guid: 37243cf01b86de141b33b053cea62b5d, type: 2}
+  - {fileID: 11400000, guid: 6b09bc2e8cdf2134cb4106737849f789, type: 2}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0dfceb734e049f4a83c1a34b3326d40, type: 3}
+  m_Name: Weapon_Slotgun
+  m_EditorClassIdentifier: Assembly-CSharp::Slotgun.WeaponDefinition
+  displayName: SLOTGUN
+  baseStats:
+    damage: 11
+    fireRate: 6.5
+    magazine: 15
+    recoil: 0.55
+    accuracy: 0.86
+    range: 70
+  pelletsPerShot: 1
+  spreadMaxDegrees: 7
+  automatic: 1
+  bodyColor: {r: 0.54509807, g: 0.9411765, b: 0.3529412, a: 1}
+  tracerColor: {r: 0.22352941, g: 0.9019608, b: 1, a: 1}
