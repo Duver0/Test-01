@@ -26,6 +26,7 @@ namespace Slotgun
                 case BossBody.MultiHeadWorm: BuildWorm(visual, a, b, dark, spinners);      break;
                 case BossBody.CrabFridge:    BuildCrabFridge(visual, a, b, dark, spinners);break;
                 case BossBody.BalloonToad:   BuildToad(visual, a, b, dark, spinners);      break;
+                case BossBody.LovecraftBlob: BuildLovecraftBlob(visual, a, b, dark, spinners); break;
                 default:                     BuildClockBlob(visual, a, b, dark, spinners); break;
             }
 
@@ -224,8 +225,41 @@ namespace Slotgun
                 float ang = i * 60f * Mathf.Deg2Rad;
                 Part(v, PrimitiveType.Capsule,
                      new Vector3(Mathf.Sin(ang) * 1.05f, 1.15f + (i % 3) * 0.18f, Mathf.Cos(ang) * 1.05f),
-                     new Vector3(0.15f, 0.4f, 0.15f),
-                     new Vector3(Mathf.Cos(ang) * 52f, 0f, Mathf.Sin(ang) * -52f), a);
+                      new Vector3(0.15f, 0.4f, 0.15f),
+                      new Vector3(Mathf.Cos(ang) * 52f, 0f, Mathf.Sin(ang) * -52f), a);
+            }
+        }
+
+        // ---- archetype 6: a fat lovecraftian entity ------------------------
+        static void BuildLovecraftBlob(Transform v, Color a, Color b, Color dark, List<Transform> spinners)
+        {
+            // body - fat spherical shape
+            Part(v, PrimitiveType.Sphere, new Vector3(0f, 2.0f, 0f), new Vector3(3.0f, 3.0f, 3.0f), Vector3.zero, a);
+            // belly wrinkles
+            Part(v, PrimitiveType.Cube, new Vector3(0f, 1.2f, 0f), new Vector3(2.8f, 0.3f, 2.8f), Vector3.zero, dark);
+            // multiple eye stalks
+            Color eyeColor = new Color(1f, 0.8f, 0.2f);
+            for (int i = 0; i < 6; i++)
+            {
+                float ang = i * 60f * Mathf.Deg2Rad;
+                Part(v, PrimitiveType.Cylinder, new Vector3(Mathf.Sin(ang) * 1.5f, 2.5f, Mathf.Cos(ang) * 1.5f),
+                     new Vector3(0.3f, 1.2f, 0.3f), new Vector3(0f, ang, 0f), eyeColor, true);
+                Part(v, PrimitiveType.Sphere, new Vector3(Mathf.Sin(ang) * 1.5f, 2.8f, Mathf.Cos(ang) * 1.5f),
+                     Vector3.one * 0.5f, Vector3.zero, Palette.Accent, true);
+            }
+            // hanging tendrils
+            for (int i = 0; i < 8; i++)
+            {
+                float ang = i * 45f * Mathf.Deg2Rad;
+                Part(v, PrimitiveType.Cylinder, new Vector3(Mathf.Sin(ang) * 2.0f, 0.5f, Mathf.Cos(ang) * 2.0f),
+                     new Vector3(0.2f, 1.5f, 0.2f), new Vector3(0f, 0f, ang), dark);
+            }
+            // floating cubes around body
+            for (int i = 0; i < 4; i++)
+            {
+                float ang = i * 90f * Mathf.Deg2Rad;
+                Part(v, PrimitiveType.Cube, new Vector3(Mathf.Sin(ang) * 2.5f, 1.0f, Mathf.Cos(ang) * 2.5f),
+                     new Vector3(0.8f, 0.8f, 0.8f), new Vector3(0f, ang, 0f), b, true);
             }
         }
     }

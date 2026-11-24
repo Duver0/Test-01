@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Slotgun
 {
-    public enum BossBody      { SlotGolem, MultiHeadWorm, CrabFridge, BalloonToad, ClockworkBlob }
+    public enum BossBody      { SlotGolem, MultiHeadWorm, CrabFridge, BalloonToad, ClockworkBlob, LovecraftBlob }
     public enum BossMovement  { Chase, Strafe, Orbit, Hopper, Charger, Kiter }
-    public enum BossAttack    { RadialBurst, AimedVolley, GroundSlam, SpinSpray, HomingOrb, StompRing, MeleeSwing, SightBeam }
+    public enum BossAttack    { RadialBurst, AimedVolley, GroundSlam, SpinSpray, HomingOrb, StompRing, MeleeSwing, SightBeam, StickyFloorBombs }
     public enum BossAbility   { None, Enrage, Shield, Blink }
     public enum BossModifier  { None, Glass, Tank, Swift, Volatile, Lucky }
     public enum BossFamily    { Single, Trio }
@@ -111,7 +111,9 @@ namespace Slotgun
             new BodyDef { kind = BossBody.BalloonToad,   name = "SAPO GLOBO",           cost = 3, scale = 1.25f,
                           primary = Palette.Accent,             secondary = Palette.CharacterPrimary },
             new BodyDef { kind = BossBody.ClockworkBlob, name = "BLOQUE DE ENGRANAJES", cost = 5, scale = 1.00f,
-                          primary = Plum,                       secondary = Palette.Props }
+                          primary = Plum,                       secondary = Palette.Props },
+            new BodyDef { kind = BossBody.LovecraftBlob, name = "ENTIDAD DE LOVECRAFT", cost = 6, scale = 1.80f,
+                          primary = new Color(0.3f, 0.1f, 0.1f), secondary = new Color(0.5f, 0.3f, 0.1f) }
         };
 
         public static readonly MovementDef[] Movements =
@@ -133,7 +135,8 @@ namespace Slotgun
             new AttackDef { kind = BossAttack.HomingOrb,   name = "Orbe rastreador",cost = 3, cooldown = 3.8f, damage = 14f },
             new AttackDef { kind = BossAttack.StompRing,   name = "Anillo",         cost = 3, cooldown = 4.0f, damage = 11f },
             new AttackDef { kind = BossAttack.MeleeSwing,  name = "Zarpazo",        cost = 2, cooldown = 3.0f, damage = 18f },
-            new AttackDef { kind = BossAttack.SightBeam,   name = "Rayo fijo",      cost = 4, cooldown = 5.4f, damage = 16f }
+            new AttackDef { kind = BossAttack.SightBeam,   name = "Rayo fijo",      cost = 4, cooldown = 5.4f, damage = 16f },
+            new AttackDef { kind = BossAttack.StickyFloorBombs, name = "Bombas pegajosas piso", cost = 5, cooldown = 6.0f, damage = 25f }
         };
 
         public static readonly AbilityDef[] Abilities =

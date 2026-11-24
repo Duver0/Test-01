@@ -27,7 +27,11 @@ namespace Slotgun.EditorTools
         /// <summary>Skin, hair and face parts — everything the camera would be sitting inside.</summary>
         static readonly string[] HiddenParts =
         {
-            "Head", "Neck", "Eyebrows", "Eyelashes", "Eyes", "Hair7", "Beard6", "Moustache4"
+            "Head", "Neck", "Eyebrows", "Eyelashes", "Eyes", "Hair7", "Beard6", "Moustache4",
+            // The chest and its armour sit right under the chin: from a 1.62 m eye you look straight
+            // down into them. Hiding the torso leaves the arms and hands (which the first-person IK
+            // drives onto the grip) and the legs, so the body still reads as yours when you look down.
+            "Chest", "Starter_Chest", "PlateSet1_Chest"
         };
 
         /// <summary>The mesh is 2.00 m tall with its feet at -0.05; the controller is 1.80 m.</summary>

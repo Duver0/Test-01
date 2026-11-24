@@ -177,7 +177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 410770931}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -268,7 +268,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -454,7 +454,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 394803651}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -640,7 +640,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 394803651}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -826,7 +826,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 394803651}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -937,7 +937,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1101,7 +1101,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 410770931}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1175,8 +1175,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 2
-  m_Color: {r: 1, g: 0.7607843, b: 0.23921569, a: 1}
-  m_Intensity: 4.5
+  m_Color: {r: 1, g: 0.88, b: 0.72, a: 1}
+  m_Intensity: 1.8
   m_Range: 33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1363,7 +1363,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1784,7 +1784,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1816540253}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1895,7 +1895,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1927,40 +1927,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363623191}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &394803651
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_FFC23D
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 2.6
-    m_Colors:
-    - _BaseColor: {r: 1, g: 0.7607843, b: 0.23921569, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 1, g: 0.84450984, b: 0.5054902, a: 1}
-    - _ShadowColor: {r: 0.42862746, g: 0.31584314, b: 0.17843138, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &399661274
 GameObject:
   m_ObjectHideFlags: 0
@@ -2020,7 +1986,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2295,40 +2261,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4661051229156556, guid: e8e4c79974d5dd2469bc0c0055921376, type: 3}
   m_PrefabInstance: {fileID: 407783951}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &410770931
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_FF5FA2_E
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 1.3
-    m_Colors:
-    - _BaseColor: {r: 1, g: 0.37254903, b: 0.63529414, a: 1}
-    - _EmissionColor: {r: 1.4, g: 0.52156866, b: 0.8894118, a: 1.4}
-    - _RimColor: {r: 1, g: 0.37254903, b: 0.63529414, a: 1}
-    - _ShadowColor: {r: 0.42862746, g: 0.16831373, b: 0.3289412, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &424579868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2461,7 +2393,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 410770931}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2618,7 +2550,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1668796010}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2729,7 +2661,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1208566229}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2877,8 +2809,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 2
-  m_Color: {r: 1, g: 0.7607843, b: 0.23921569, a: 1}
-  m_Intensity: 4.5
+  m_Color: {r: 1, g: 0.88, b: 0.72, a: 1}
+  m_Intensity: 1.8
   m_Range: 33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3096,7 +3028,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 394803651}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3504,7 +3436,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1668796010}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3763,7 +3695,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 410770931}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3928,7 +3860,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1328504378}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4042,7 +3974,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4154,7 +4086,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1668796010}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4635,7 +4567,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4931,8 +4863,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 2
-  m_Color: {r: 1, g: 0.7607843, b: 0.23921569, a: 1}
-  m_Intensity: 4.5
+  m_Color: {r: 1, g: 0.88, b: 0.72, a: 1}
+  m_Intensity: 1.8
   m_Range: 33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5028,8 +4960,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 2
-  m_Color: {r: 1, g: 0.37254903, b: 0.63529414, a: 1}
-  m_Intensity: 4.5
+  m_Color: {r: 1, g: 0.88, b: 0.72, a: 1}
+  m_Intensity: 1.8
   m_Range: 33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5216,7 +5148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1668796010}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5269,40 +5201,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183713253}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &1208566229
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_FFC23D_E
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 1.3
-    m_Colors:
-    - _BaseColor: {r: 1, g: 0.7607843, b: 0.23921569, a: 1}
-    - _EmissionColor: {r: 1.4, g: 1.065098, b: 0.33490196, a: 1.4}
-    - _RimColor: {r: 1, g: 0.7607843, b: 0.23921569, a: 1}
-    - _ShadowColor: {r: 0.42862746, g: 0.31584314, b: 0.17843138, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1250411273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5525,40 +5423,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 423888, guid: d537224908c5f444f86c9e57e0c7234c, type: 3}
   m_PrefabInstance: {fileID: 1258975442}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1328504378
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_8BF05A
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 2.6
-    m_Colors:
-    - _BaseColor: {r: 0.54509807, g: 0.9411765, b: 0.3529412, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0.70431376, g: 0.9617647, b: 0.57941175, a: 1}
-    - _ShadowColor: {r: 0.25576472, g: 0.38439214, b: 0.22164707, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1367047110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5819,7 +5683,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5933,7 +5797,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 394803651}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6060,40 +5924,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 405966, guid: c7bcf19bbfa57ed4ea9147dff66d5542, type: 3}
   m_PrefabInstance: {fileID: 1427721320}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1436878789
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_FF5FA2
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 2.6
-    m_Colors:
-    - _BaseColor: {r: 1, g: 0.37254903, b: 0.63529414, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 1, g: 0.5921569, b: 0.7629412, a: 1}
-    - _ShadowColor: {r: 0.42862746, g: 0.16831373, b: 0.3289412, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1437525409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6301,7 +6131,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1804523116}
+  - {fileID: 2100000, guid: 1929e40a7aaf2024d882ba98b4ea3f99, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6413,7 +6243,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1816540253}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6599,7 +6429,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1328504378}
+  - {fileID: 2100000, guid: 55f79eb114e72974baa67cd930a7eebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6786,7 +6616,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1668796010}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6818,40 +6648,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1641857736}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &1668796010
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_8E479F
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 2.6
-    m_Colors:
-    - _BaseColor: {r: 0.55592155, g: 0.27717647, b: 0.62337255, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0.711349, g: 0.5301647, b: 0.75519216, a: 1}
-    - _ShadowColor: {r: 0.25987765, g: 0.13207215, b: 0.32441097, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1669052871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7280,7 +7076,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 410770931}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7354,8 +7150,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 2
-  m_Color: {r: 1, g: 0.37254903, b: 0.63529414, a: 1}
-  m_Intensity: 4.5
+  m_Color: {r: 1, g: 0.88, b: 0.72, a: 1}
+  m_Intensity: 1.8
   m_Range: 33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7577,8 +7373,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 2
-  m_Color: {r: 1, g: 0.37254903, b: 0.63529414, a: 1}
-  m_Intensity: 4.5
+  m_Color: {r: 1, g: 0.88, b: 0.72, a: 1}
+  m_Intensity: 1.8
   m_Range: 33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7706,74 +7502,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4412714568244462, guid: 2ab833ef86401f8409c0310ffb61631e, type: 3}
   m_PrefabInstance: {fileID: 1793214253}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1804523116
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_72346D
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 2.6
-    m_Colors:
-    - _BaseColor: {r: 0.44658825, g: 0.20313726, b: 0.42635295, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0.64028233, g: 0.4820392, b: 0.62712944, a: 1}
-    - _ShadowColor: {r: 0.21833098, g: 0.10393726, b: 0.24954353, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
---- !u!21 &1816540253
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_6A3F9E
-  m_Shader: {fileID: 4800000, guid: f51de4005a0fceb499ed1f1c7d559e41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _BandEdge: 0.5
-    - _RimPower: 2.6
-    m_Colors:
-    - _BaseColor: {r: 0.41568628, g: 0.24705882, b: 0.61960787, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0.6201961, g: 0.5105882, b: 0.7527451, a: 1}
-    - _ShadowColor: {r: 0.20658824, g: 0.12062745, b: 0.3229804, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1850110042
 GameObject:
   m_ObjectHideFlags: 0
@@ -8308,7 +8036,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1668796010}
+  - {fileID: 2100000, guid: 43c60f7ef6a18f2419c83c3c1bf2ee1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8494,7 +8222,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1436878789}
+  - {fileID: 2100000, guid: 3196b50cbe66ce949bb965aeb04d0db9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
