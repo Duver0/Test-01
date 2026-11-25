@@ -294,13 +294,18 @@ namespace Slotgun
         /// </summary>
         float SprintSpeed()
         {
+            // sprintSpeed is the floor. The boss rule used to *replace* the sprint speed outright, so
+            // against a boss whose live chase speed is 4.4 m/s a "sprint" came out at ~5 m/s —
+            // slower than the 6.4 m/s walk. Holding shift then visibly slowed the player down.
             float speed = sprintSpeed;
+
             var director = GameDirector.Instance;
             if (director != null && director.CurrentBoss != null)
-                speed = director.CurrentBoss.ChaseSpeed * escapeMargin;
+                speed = Mathf.Max(speed, director.CurrentBoss.ChaseSpeed * escapeMargin);
 
-            // Stay a hair faster than the boss, so a clean line always opens a gap.
-            return Mathf.Max(speed + 0.5f, speed);
+            // And a sprint must always leave a legible gap over the walk, even if the inspector
+            // values get retuned later and end up too close together.
+            return Mathf.Max(speed, walkSpeed * 1.25f);
         }
 
         void Move()

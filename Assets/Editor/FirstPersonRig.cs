@@ -20,11 +20,23 @@ namespace Slotgun.EditorTools
     public static class FirstPersonRig
     {
         /// <summary>
-        /// Camera-space placement of the pistol. High enough that the hand on the grip is inside the
-        /// 80° frustum rather than just under it, and close enough that a 0.52 m arm can reach it.
+        /// Camera-space placement of the pistol. This rig's arms are 0.53 m and the shoulders sit
+        /// 0.16 m behind the eye, so a two-handed hold only exists close in: at 0.44 m the support
+        /// hand falls 11 cm short of the gun, which is what read as a broken grip.
         /// </summary>
-        static readonly Vector3 WeaponPosition = new Vector3(0.135f, -0.10f, 0.42f);
-        const float WeaponScale = 0.55f;
+        static readonly Vector3 WeaponPosition = new Vector3(0.115f, -0.115f, 0.34f);
+
+        /// <summary>
+        /// Kept under 1 on purpose: the pack's pistol imports 0.345 m long, which is 1.6x a real 1911
+        /// and nearly twice the width of the body's own hand. At 0.30 it reads 0.21 m, and the hand
+        /// that holds it is finally in proportion with it.
+        /// </summary>
+        const float WeaponScale = 0.30f;
+
+        // Grip points, as offsets from the pistol's own magazine mesh (its handle), in weapon space:
+        // the palm wraps the backstrap, and the support hand closes under it on the front strap.
+        static readonly Vector3 GripFromHandle = new Vector3(0f, 0.10f, -0.06f);
+        static readonly Vector3 ForegripFromHandle = new Vector3(-0.05f, -0.09f, -0.02f);
 
         [MenuItem("Slotgun/Install First-Person Body Rig", false, 43)]
         public static void InstallInActiveScene()
@@ -77,26 +89,18 @@ namespace Slotgun.EditorTools
             var weapon = cam.transform.Find("Weapon");
             var m1911 = weapon != null ? weapon.Find("ViewModel/Pistol/M1911") : null;
 
-            Vector3 gripLocal = new Vector3(0f, -0.06f, -0.06f);
-            Vector3 foregripLocal = new Vector3(0f, -0.037f, 0.062f);
-
             if (weapon != null)
             {
                 weapon.localPosition = WeaponPosition;
                 weapon.localRotation = Quaternion.identity;
                 weapon.localScale = Vector3.one * WeaponScale;
 
-                if (m1911 != null)
-                {
-                    // Offsets are relative to the pistol mesh's own origin, so they survive a
-                    // viewmodel swap.
-                    Vector3 origin = weapon.InverseTransformPoint(m1911.position);
-                    gripLocal += origin;
-                    foregripLocal += origin;
-                }
-
-                MakePoint(weapon, "Grip", gripLocal);
-                MakePoint(weapon, "Foregrip", foregripLocal);
+                // The Grip empties are placed off the pistol's handle rather than off the mesh's
+                // origin: the model's pivot sits well above and right of the magazine, which is why
+                // the hands used to close on empty air beside the grip.
+                Vector3 handle = HandleInWeaponSpace(weapon, m1911);
+                MakePoint(weapon, "Grip", handle + GripFromHandle);
+                MakePoint(weapon, "Foregrip", handle + ForegripFromHandle);
             }
 
             // ---- 4. the arms grip it ----
@@ -107,6 +111,17 @@ namespace Slotgun.EditorTools
             arms.loadout = player.GetComponent<PlayerLoadout>();
             arms.grip = weapon != null ? weapon.Find("Grip") : null;
             arms.foregrip = weapon != null ? weapon.Find("Foregrip") : null;
+
+            // Only the wrist offset is left to the script now that the empties sit on the handle.
+            arms.gripBack = 0.03f;
+            arms.gripDown = 0.012f;
+            arms.foregripBack = 0.03f;
+            arms.foregripDown = 0.016f;
+
+            // This rig's arm is 0.52 m and the grip sits 0.52 m from the shoulder, so the reach band has
+            // to start at the arm's length rather than short of it, or the weight is zero and the hand
+            // never takes hold at all.
+            arms.reachLimit = 1.15f;
 
             // ---- 5. the box gloves are redundant now ----
             var fists = cam.transform.Find("Fists");
@@ -126,11 +141,23 @@ namespace Slotgun.EditorTools
 
             log.Append("anchor=on pivot=").Append(anchor.pivot != null ? anchor.pivot.name : "NULL")
                .Append(" head=").Append(anchor.headBone != null ? anchor.headBone.name : "NULL")
-               .Append(" grip=").Append(gripLocal.ToString("F3"))
-               .Append(" foregrip=").Append(foregripLocal.ToString("F3"))
+               .Append(" grip=").Append(arms.grip != null ? arms.grip.localPosition.ToString("F3") : "NULL")
+               .Append(" foregrip=").Append(arms.foregrip != null ? arms.foregrip.localPosition.ToString("F3") : "NULL")
                .Append(" glovesRemoved=").Append(fists != null ? "yes" : "no");
 
             return log.ToString();
+        }
+
+        /// <summary>
+        /// Where the pistol's handle actually is, in the weapon's own space. The magazine mesh is the
+        /// handle; the M1911 mesh's pivot is not, and using it put both hands above the gun.
+        /// </summary>
+        static Vector3 HandleInWeaponSpace(Transform weapon, Transform m1911)
+        {
+            foreach (var mr in weapon.GetComponentsInChildren<MeshRenderer>(true))
+                if (mr.name == "Magazin") return weapon.InverseTransformPoint(mr.bounds.center);
+
+            return m1911 != null ? weapon.InverseTransformPoint(m1911.position) : Vector3.zero;
         }
 
         static Transform MakePoint(Transform parent, string name, Vector3 localPosition)

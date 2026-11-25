@@ -18,6 +18,12 @@ namespace Slotgun
     /// </summary>
     public class ModelLocomotion : MonoBehaviour
     {
+        /// <summary>Animator trigger for the one-handed melee swing every fighter shares.</summary>
+        public const string AttackTrigger = "Attack";
+
+        /// <summary>Animator trigger for the two-handed lunge a zombie tackles with.</summary>
+        public const string TackleTrigger = "Tackle";
+
         [Header("Clip-driven (preferred)")]
         [Tooltip("When set, the rig is animated by humanoid clips through this Animator instead of being posed by hand.")]
         public Animator animator;
