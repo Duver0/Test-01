@@ -34,25 +34,36 @@ namespace Slotgun
         }
 
         /// <summary>
-        /// Where the red circle sits on each archetype, in visual space. It must clear the boss
-        /// capsule (radius 1.05 in visual space) or nothing can ever hit it: the capsule would
-        /// block the shot.
+        /// Where the weak point sits, in visual space. Randomised per body so it has to be found,
+        /// and kept outside the body capsule (radius 1.05 in visual space) or the capsule is hit
+        /// first and the point could never be shot.
         /// </summary>
         public static Vector3 WeakPointLocal(BossBody body)
         {
             switch (body)
             {
-                case BossBody.MultiHeadWorm: return new Vector3(0f, 1.95f, 1.16f);
-                case BossBody.BalloonToad:   return new Vector3(0f, 1.45f, 1.20f);
-                case BossBody.CrabFridge:    return new Vector3(0f, 1.46f, 1.18f);
-                case BossBody.ClockworkBlob: return new Vector3(0f, 1.55f, 1.20f);
-                default:                     return new Vector3(0f, 1.55f, 1.16f);
+                case BossBody.MultiHeadWorm: return RandomSurfacePoint(1.22f, 1.20f, 2.25f);
+                case BossBody.BalloonToad:   return RandomSurfacePoint(1.26f, 0.95f, 2.00f);
+                case BossBody.CrabFridge:    return RandomSurfacePoint(1.24f, 0.95f, 2.00f);
+                case BossBody.ClockworkBlob: return RandomSurfacePoint(1.24f, 1.05f, 2.10f);
+                default:                     return RandomSurfacePoint(1.22f, 1.10f, 2.10f);
             }
         }
 
+        /// <summary>A random point on the body's surface, so no two bodies are shot in the same place.</summary>
+        public static Vector3 RandomSurfacePoint(float surfaceRadius, float minY, float maxY)
+        {
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            return new Vector3(Mathf.Cos(angle) * surfaceRadius, Random.Range(minY, maxY),
+                               Mathf.Sin(angle) * surfaceRadius);
+        }
+
         /// <summary>
-        /// Mounts a small red target circle on a short dark stalk. The mount carries the hit sphere
-        /// and the BossWeakPoint behaviour; the disc is only the readable face of it.
+        /// Sets the weak point on a body. It is invisible: no shell mesh, no tint, no glow — the mount
+        /// carries only the hit sphere and the BossWeakPoint behaviour, so nothing in the world shows
+        /// where it sits and the only way to find it is to notice the surge after a shot lands.
+        /// The collider stays solid and untriggered because bullets are cast with
+        /// QueryTriggerInteraction.Ignore: a trigger here would make the point impossible to shoot.
         /// </summary>
         public static BossWeakPoint AttachWeakPoint(Transform parent, Vector3 localPosition, float radius,
                                                     IDamageable owner, System.Action onSurge)
@@ -62,19 +73,12 @@ namespace Slotgun
             mount.localPosition = localPosition;
             mount.localRotation = Quaternion.identity;
 
-            Part(mount, PrimitiveType.Cube, new Vector3(0f, 0f, -0.34f), new Vector3(0.16f, 0.16f, 0.55f),
-                 Vector3.zero, Color.Lerp(Palette.Danger, Palette.Shadow, 0.72f));
-
-            var disc = Part(mount, PrimitiveType.Cylinder, Vector3.zero,
-                            new Vector3(radius * 2.1f, 0.05f, radius * 2.1f), new Vector3(90f, 0f, 0f),
-                            Palette.Danger, true);
-
             var col = mount.gameObject.AddComponent<SphereCollider>();
             col.radius = radius;
             col.isTrigger = false;
 
             var point = mount.gameObject.AddComponent<BossWeakPoint>();
-            point.Initialize(owner, disc, onSurge, radius);
+            point.Initialize(owner, onSurge, radius);
             return point;
         }
 

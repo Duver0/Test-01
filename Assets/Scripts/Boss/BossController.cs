@@ -583,47 +583,14 @@ namespace Slotgun
         }
 
         /// <summary>
-        /// A shot landed on the red circle. The damage bonus already went through TakeDamage; this
-        /// only buys the boss a burst of speed, refreshed by every further hit on the circle.
+        /// A shot landed on the weak point. The damage bonus already went through TakeDamage; this
+        /// only buys the boss a burst of speed, refreshed by every further hit. It is deliberately
+        /// silent — no message, no sound, no pulse — because the point is invisible: announcing the
+        /// hit would hand the player its position for free.
         /// </summary>
-public void NotifyWeakHit()
+        public void NotifyWeakHit()
         {
-            bool fresh = !WeakSurgeActive;
             _weakUntil = Time.time + weakSurgeSeconds;
-
-            if (!fresh) return;
-
-            // Visual feedback: pulse the boss visualization
-            if (_visual != null)
-            {
-                StartCoroutine(PulseWeakPointFeedback());
-            }
-
-            // Audio feedback
-            var audio = GetComponent<AudioSource>();
-            if (audio != null && !audio.isPlaying)
-            {
-                audio.PlayOneShot(Resources.Load<AudioClip>("Audio/UI/click"));
-            }
-
-            if (GameDirector.Instance != null)
-                GameDirector.Instance.Say("PUNTO DÉBIL · ×2 DAÑO · EL JEFE ACELERA 5 s");
-        }
-
-        IEnumerator PulseWeakPointFeedback()
-        {
-            float elapsed = 0f;
-            float duration = 0.5f;
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                // Pulse the visual scale briefly
-                if (_visual != null)
-                    _visual.localScale = Vector3.one * config.visualScale * (1f + 0.1f * Mathf.PingPong(elapsed, duration) * 2f);
-                yield return null;
-            }
-            if (_visual != null)
-                _visual.localScale = Vector3.one * config.visualScale;
         }
 
         IEnumerator SpecialBurst()

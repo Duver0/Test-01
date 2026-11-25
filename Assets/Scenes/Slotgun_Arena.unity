@@ -2134,11 +2134,24 @@ MonoBehaviour:
   player: {fileID: 1063431059}
   playerHealth: {fileID: 1063431058}
   weapon: {fileID: 1793588850}
-  machine: {fileID: 1161016247}
-  bossSpawn: {fileID: 1083506412}
+  loadout: {fileID: 0}
+  interactor: {fileID: 0}
+  sectors: {fileID: 0}
+  coreSceneName: Slotgun_Core
+  prepSceneName: Slotgun_PrepRoom
   arenaCenter: {x: 0, y: 0, z: 0}
   arenaRadius: 22
+  enemyModels: []
+  zombieModels: []
+  skeletonModel: {fileID: 0}
+  armoredSkeletonModel: {fileID: 0}
   startingMoney: 180
+  healPrice: 45
+  healAmount: 50
+  ammoPrice: 30
+  rewardBase: 70
+  rewardPerRound: 35
+  luckyBonus: 60
   totalRounds: 3
 --- !u!4 &1030267032
 Transform:
@@ -2238,8 +2251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Slotgun.PlayerHealth
   maxHealth: 100
-  regenDelay: 6
-  regenPerSecond: 2
 --- !u!114 &1063431059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,11 +2267,21 @@ MonoBehaviour:
   eye: {fileID: 173988536}
   walkSpeed: 6.4
   sprintSpeed: 9.2
+  escapeMargin: 1.04
   acceleration: 22
   gravity: -24
   jumpHeight: 1.25
+  fovNormal: 80
+  fovSprint: 90
+  fovLerpSpeed: 10
+  sprintSeconds: 6
+  sprintRecoverySeconds: 3
+  sprintUnlockFraction: 0.25
   mouseSensitivity: 0.085
   maxPitch: 85
+  aimKey: 324
+  aimDistance: 0.3
+  aimLerpSpeed: 10
 --- !u!114 &1063431060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4823,6 +4844,9 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: af7647dc3bc03da4aa98d8a6ea7e9779, type: 2}
   player: {fileID: 1063431059}
   muzzle: {fileID: 1577413867}
+  viewmodel: {fileID: 0}
+  spareMags: 3
+  maxSpareMags: 6
 --- !u!4 &1793588851
 Transform:
   m_ObjectHideFlags: 0
@@ -4832,8 +4856,8 @@ Transform:
   m_GameObject: {fileID: 1793588849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.24, z: 0.5}
-  m_LocalScale: {x: 0.66, y: 0.66, z: 0.66}
+  m_LocalPosition: {x: 0.135, y: -0.1, z: 0.38}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1577413867}

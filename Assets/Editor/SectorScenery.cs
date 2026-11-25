@@ -205,21 +205,36 @@ namespace Slotgun.EditorTools
                     Mathf.Cos(angle * Mathf.Deg2Rad) * dist);
 
                 float scale = Mathf.Lerp(0.85f, 1.25f, (float)rng.NextDouble());
-                Place(prefab, root, "Tree_" + i, pos, (float)rng.NextDouble() * 360f, scale, sheet);
+                Place(prefab, root, "Tree_" + i, pos, (float)rng.NextDouble() * 360f, scale, sheet, true);
             }
+
+            // The player comes in at local -Z, half a radius out (the sector generator places the
+            // spawn at (0, 0.2, -arenaRadius * 0.52)). Nothing may be seeded on that spot: a bush
+            // filling the lower half of the first-person view on frame one is the whole view.
+            var spawn = new Vector2(0f, -arenaRadius * 0.52f);
+            const float SpawnClearance = 8f;
 
             // Ground cover across the floor, denser towards the walls. Area-uniform, so the middle
             // of the arena does not end up with a clump and a bald ring.
             for (int i = 0; i < plantCount && plants.Count > 0; i++)
             {
-                float angle = (float)rng.NextDouble() * 360f;
-                float dist = Mathf.Lerp(arenaRadius * 0.28f, arenaRadius * 0.97f, Mathf.Sqrt((float)rng.NextDouble()));
                 var prefab = plants[rng.Next(plants.Count)];
 
-                var pos = new Vector3(
-                    Mathf.Sin(angle * Mathf.Deg2Rad) * dist,
-                    0f,
-                    Mathf.Cos(angle * Mathf.Deg2Rad) * dist);
+                // Re-roll any point that lands inside the spawn clearance. Twelve tries is far more
+                // than enough with the ring starting at 0.28R; the last draw is used if all fail.
+                Vector3 pos = Vector3.zero;
+                for (int attempt = 0; attempt < 12; attempt++)
+                {
+                    float angle = (float)rng.NextDouble() * 360f;
+                    float dist = Mathf.Lerp(arenaRadius * 0.28f, arenaRadius * 0.97f, Mathf.Sqrt((float)rng.NextDouble()));
+
+                    pos = new Vector3(
+                        Mathf.Sin(angle * Mathf.Deg2Rad) * dist,
+                        0f,
+                        Mathf.Cos(angle * Mathf.Deg2Rad) * dist);
+
+                    if (Vector2.Distance(new Vector2(pos.x, pos.z), spawn) >= SpawnClearance) break;
+                }
 
                 float scale = Mathf.Lerp(0.8f, 1.35f, (float)rng.NextDouble());
                 Place(prefab, root, "Plant_" + i, pos, (float)rng.NextDouble() * 360f, scale, null);
@@ -313,7 +328,8 @@ namespace Slotgun.EditorTools
             return result;
         }
 
-        static void Place(GameObject prefab, Transform parent, string name, Vector3 position, float yaw, float scale, Material sheet)
+        static void Place(GameObject prefab, Transform parent, string name, Vector3 position, float yaw, float scale, Material sheet,
+                          bool solid = false)
         {
             var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
             go.name = name + " " + prefab.name;
@@ -327,13 +343,39 @@ namespace Slotgun.EditorTools
                 foreach (var r in go.GetComponentsInChildren<Renderer>(true))
                     r.sharedMaterial = sheet;
 
-            // Nothing in an arena may be walked into: scenery is decoration only.
+            // The packs' own colliders are unreliable — often a mesh collider on a canopy that hangs
+            // metres off the pivot — so they are dropped and, for things you must not walk through,
+            // replaced with one clean trunk capsule below.
             foreach (var c in go.GetComponentsInChildren<Collider>(true)) Object.DestroyImmediate(c);
 
             // Pivots are inconsistent across the packs, so put the lowest vertex on the floor.
             float minY = LocalMinY(go);
             if (!Mathf.Approximately(minY, 0f))
                 go.transform.localPosition = position + Vector3.up * (-minY * scale);
+
+            if (solid) AddTrunkCollider(go);
+        }
+
+        /// <summary>
+        /// One upright capsule up the trunk. Ground cover stays walk-through — grass you cannot walk
+        /// over would turn the arena floor into a maze of invisible walls — but a tree is a tree.
+        /// </summary>
+        static void AddTrunkCollider(GameObject go)
+        {
+            const float TrunkRadius = 0.34f;
+            const float TrunkHeight = 3.2f;
+
+            var cap = go.AddComponent<CapsuleCollider>();
+            cap.direction = 1;
+            cap.radius = TrunkRadius;
+            cap.height = TrunkHeight;
+
+            // The instance was floor-snapped by moving it up, so the ground is not at local Y = 0.
+            // Ask the transform where the ground plane sits in its own space.
+            Vector3 p = go.transform.position;
+            float groundLocalY = go.transform.InverseTransformPoint(new Vector3(p.x, 0f, p.z)).y;
+
+            cap.center = new Vector3(0f, groundLocalY + TrunkHeight * 0.5f, 0f);
         }
 
         static float LocalMinY(GameObject go)

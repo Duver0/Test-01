@@ -26,6 +26,22 @@ namespace Slotgun
         public float weakSurgeMultiplier = 1.55f;
         public float weakSurgeSeconds = 5f;
 
+        [Header("Melee")]
+        [Tooltip("Damage of one swing, before the boss damage scale is applied.")]
+        public float meleeDamage = 14f;
+        [Tooltip("Reach in metres at which a swing can land.")]
+        public float meleeRange = 3.0f;
+        [Tooltip("Seconds between swings while the player stays in reach.")]
+        public float meleeInterval = 1.5f;
+        [Tooltip("Seconds from the start of the swing animation to the hit, so backing off during the wind-up dodges it.")]
+        public float meleeWindup = 0.28f;
+        [Tooltip("A wave body fights only in melee whatever its role. The squad boss keeps its gunner and its medic.")]
+        public bool meleeOnly;
+
+        [Header("Crowd")]
+        [Tooltip("Metres of personal space this body keeps from every other body. Its own capsule is about 0.8 m across, so anything near 1 m stops the bodies standing inside each other.")]
+        public float separationSpacing = 1.15f;
+
         public float MaxHealth { get; private set; }
         public float Current { get; private set; }
         public bool IsAlive => Current > 0f;
@@ -46,7 +62,9 @@ namespace Slotgun
         Vector3 _swingArmHome;
         Transform _muzzle;
         BossWeakPoint _weak;
+        Animator _rig;
         bool _usesModel;
+        float _targetHeight = ModelHeight.Fallback;
 
         float _nextAttack;
         float _healAt;
@@ -76,9 +94,11 @@ namespace Slotgun
         float BaseSpeed => role == EnemyRole.Brute ? 3.6f : (role == EnemyRole.Gunner ? 4.0f : 4.6f);
 
         public void Initialize(EnemyRole unitRole, float health, PlayerController player, SquadBoss squad,
-                               Vector3 center, float radius, float damageScale, int seed, GameObject model = null)
+                               Vector3 center, float radius, float damageScale, int seed, GameObject model = null,
+                               float targetHeight = 0f)
         {
             role = unitRole;
+            _targetHeight = targetHeight > 0.01f ? targetHeight : ModelHeight.Fallback;
             MaxHealth = Mathf.Max(1f, health);
             Current = MaxHealth;
             _target = player;
@@ -101,7 +121,19 @@ namespace Slotgun
             _nextAttack = Time.time + Random.Range(0.7f, 1.5f);
             _healAt = Time.time + 2f;
             _spawnAt = Time.time;
+
+            CrowdSeparation.Register(transform, SolidRadius);
         }
+
+        /// <summary>A brute is wider than the rest, so it asks for more room before it starts shoving.</summary>
+        float SeparationSpacing => role == EnemyRole.Brute ? separationSpacing * 1.2f : separationSpacing;
+
+        /// <summary>
+        /// The centre distance below which this body's capsule is inside another. Measured off the
+        /// capsule BuildBody fits: 0.40 radius for a brute, 0.33 for the rest, plus a margin so no
+        /// two capsules ever touch on screen.
+        /// </summary>
+        float SolidRadius => role == EnemyRole.Brute ? 0.82f : 0.70f;
 
         // ---- health ---------------------------------------------------------
 
@@ -168,19 +200,14 @@ namespace Slotgun
 
         Vector3 WeakPointLocal()
         {
-            // On a model the plate has to sit clear of the capsule at chest height: inside it, the
-            // body collider is hit first and the red circle could never be shot.
-            if (_usesModel)
-                return role == EnemyRole.Brute
-                    ? new Vector3(0.10f, 1.30f, 0.52f)
-                    : new Vector3(0f, 1.18f, 0.44f);
+            // A random spot on the torso, kept clear of the capsule: inside it the body collider is
+            // hit first and the point could never be shot. It wears the body's own material, so it
+            // is meant to be hunted for rather than spotted from across the arena.
+            float surface = _usesModel
+                ? (role == EnemyRole.Brute ? 0.50f : 0.44f)
+                : (role == EnemyRole.Brute ? 0.66f : 0.52f);
 
-            switch (role)
-            {
-                case EnemyRole.Brute:  return new Vector3(0.14f, 1.2f, 0.80f);
-                case EnemyRole.Gunner: return new Vector3(0f, 1.05f, 0.64f);
-                default:               return new Vector3(0f, 1.0f, 0.62f);
-            }
+            return BossVisual.RandomSurfacePoint(surface, 0.75f, 1.50f);
         }
 
         float WeakPointRadius() => role == EnemyRole.Brute ? 0.13f : 0.11f;
@@ -191,7 +218,10 @@ namespace Slotgun
             go.name = "Visual";
             go.transform.localPosition = Vector3.zero;
             go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale = Vector3.one * (role == EnemyRole.Brute ? 1.05f : 0.95f);
+            // The packs do not agree on scale. Fit the instance to the player's own height instead of
+            // trusting a per-pack factor, so a wave is made of bodies the player's own size.
+            go.transform.localScale = Vector3.one;
+            ModelHeight.Fit(go.transform, _targetHeight);
 
             // Imported characters sometimes carry their own colliders; the capsule above is the one
             // that counts.
@@ -216,6 +246,7 @@ namespace Slotgun
                     rig.applyRootMotion = false;
                     rig.runtimeAnimatorController = clips;
                     walk.animator = rig;
+                    _rig = rig;   // the melee swing is a clip, so the animator is kept for triggers
                 }
             }
 
@@ -307,29 +338,34 @@ namespace Slotgun
             Vector3 dir = dist > 0.001f ? to / dist : transform.forward;
 
             Vector3 desired;
-            switch (role)
+            if (meleeOnly || role == EnemyRole.Brute)
             {
-                case EnemyRole.Brute:
-                    desired = dist > 2.2f ? dir : Vector3.zero;
-                    break;
-
-                case EnemyRole.Gunner:
-                    desired = Vector3.Cross(Vector3.up, dir) * _orbitDir;
-                    if (dist > 15f) desired += dir * 1.3f;
-                    else if (dist < 8.5f) desired -= dir * 1.5f;
-                    break;
-
-                default:
-                    desired = Vector3.Cross(Vector3.up, dir) * (_orbitDir * 0.7f);
-                    if (dist < 15f) desired -= dir * 1.7f;
-                    else if (dist > 24f) desired += dir * 0.6f;
-                    break;
+                // A wave body has no ranged role: it walks in and swings, whatever its label says.
+                desired = dist > 2.2f ? dir : Vector3.zero;
+            }
+            else if (role == EnemyRole.Gunner)
+            {
+                desired = Vector3.Cross(Vector3.up, dir) * _orbitDir;
+                if (dist > 15f) desired += dir * 1.3f;
+                else if (dist < 8.5f) desired -= dir * 1.5f;
+            }
+            else
+            {
+                desired = Vector3.Cross(Vector3.up, dir) * (_orbitDir * 0.7f);
+                if (dist < 15f) desired -= dir * 1.7f;
+                else if (dist > 24f) desired += dir * 0.6f;
             }
 
-            desired += Separation();
+            desired += CrowdSeparation.Push(transform.position, transform, SeparationSpacing);
 
             if (desired.sqrMagnitude > 0.0001f)
-                transform.position += desired.normalized * BaseSpeed * SpeedMultiplier * Time.deltaTime;
+            {
+                // Clamped rather than normalised: a body pushing through a wall of other bodies is
+                // slowed by them instead of being deflected at full speed, which is what makes the
+                // crowd read as solid.
+                Vector3 step = Vector3.ClampMagnitude(desired, 1f);
+                transform.position += step * BaseSpeed * SpeedMultiplier * Time.deltaTime;
+            }
 
             Vector3 offset = transform.position - _arenaCenter;
             offset.y = 0f;
@@ -343,39 +379,20 @@ namespace Slotgun
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 6f);
         }
 
-        /// <summary>Keeps the three bodies from stacking into one blob when they all chase the player.</summary>
-        Vector3 Separation()
-        {
-            if (_squad == null) return Vector3.zero;
-
-            var units = _squad.Units;
-            Vector3 push = Vector3.zero;
-            for (int i = 0; i < units.Count; i++)
-            {
-                var other = units[i];
-                if (other == null || other == this || !other.IsAlive) continue;
-
-                Vector3 d = transform.position - other.transform.position;
-                d.y = 0f;
-                float m = d.magnitude;
-                if (m > 0.0001f && m < 2.4f) push += d / m * (2.4f - m);
-            }
-            return push;
-        }
-
         void Combat()
         {
             float dist = FlatDistance();
 
+            if (meleeOnly || role == EnemyRole.Brute)
+            {
+                if (dist > meleeRange || Time.time < _nextAttack) return;
+                _nextAttack = Time.time + meleeInterval * (Enraged ? 0.6f : 1f);
+                StartCoroutine(Swing());
+                return;
+            }
+
             switch (role)
             {
-                case EnemyRole.Brute:
-                    if (dist > 3.0f || Time.time < _nextAttack) return;
-                    _nextAttack = Time.time + 1.5f * (Enraged ? 0.6f : 1f);
-                    _swingUntil = Time.time + 0.4f;
-                    DamagePlayer(14f * _damageScale);
-                    break;
-
                 case EnemyRole.Gunner:
                     if (dist > 26f || Time.time < _nextAttack) return;
                     _nextAttack = Time.time + 2.1f * (Enraged ? 0.6f : 1f);
@@ -393,6 +410,24 @@ namespace Slotgun
             Vector3 to = _target.transform.position - transform.position;
             to.y = 0f;
             return to.magnitude;
+        }
+
+        /// <summary>
+        /// One melee swing, played as a humanoid clip through the shared controller. Damage lands on
+        /// the animation's contact frame rather than the frame the swing was chosen, so a player who
+        /// backs off during the wind-up is not hit by a swing that never reached them.
+        /// </summary>
+        IEnumerator Swing()
+        {
+            _swingUntil = Time.time + 0.45f;
+            if (_rig != null) _rig.SetTrigger(ModelLocomotion.AttackTrigger);
+
+            yield return new WaitForSeconds(meleeWindup);
+
+            if (_dead || _target == null) yield break;
+            if (FlatDistance() > meleeRange + 0.6f) yield break;
+
+            DamagePlayer(meleeDamage * _damageScale);
         }
 
         void DamagePlayer(float amount)
@@ -480,6 +515,7 @@ namespace Slotgun
 
         void Die()
         {
+            CrowdSeparation.Unregister(transform);
             if (_weak != null) _weak.Kill();
             if (_visual != null) _visual.gameObject.SetActive(false);
 
@@ -487,6 +523,11 @@ namespace Slotgun
             if (Died != null) Died(this);
 
             Destroy(gameObject, 2.2f);
+        }
+
+        void OnDestroy()
+        {
+            CrowdSeparation.Unregister(transform);
         }
 
         void SpawnDebris()

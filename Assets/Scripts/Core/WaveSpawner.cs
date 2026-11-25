@@ -11,11 +11,13 @@ namespace Slotgun
     public class WaveSpawner : MonoBehaviour
     {
         [Header("Models (optional)")]
-        [Tooltip("Zombie pack characters, picked at random for the shambling bodies.")]
+        [Tooltip("Every low-poly enemy body in the project, minus the player's own character. Each wave body picks one at random, so a sector is a mixed crowd of zombies, skeletons, knights and demons.")]
+        public GameObject[] enemyModels;
+        [Tooltip("Zombie pack characters, used only when enemyModels is empty.")]
         public GameObject[] zombieModels;
-        [Tooltip("Body used by gunners and medics.")]
+        [Tooltip("Body used by gunners and medics when enemyModels is empty.")]
         public GameObject skeletonModel;
-        [Tooltip("Body used by brutes.")]
+        [Tooltip("Body used by brutes when enemyModels is empty.")]
         public GameObject armoredSkeletonModel;
 
         readonly List<EnemyUnit> _units = new List<EnemyUnit>();
@@ -52,20 +54,39 @@ namespace Slotgun
 
             // A squad of brutes and gunners, plus zombies from the second sector on, is enough
             // variety without turning the warm-up into a second boss fight.
-            int brutes = Mathf.Clamp(1 + round / 2, 1, 3);
-            int gunners = Mathf.Clamp(1 + round / 2, 1, 3);
-            int zombies = round >= 2 ? Mathf.Min(2, round - 1) : 0;
+            // The wave is still a fight, though: twenty bodies from the first sector, three more
+            // each sector after that, so it is never a walkover.
+            int total = 20 + Mathf.Max(0, round - 1) * 3;
+            int brutes = Mathf.Max(1, Mathf.RoundToInt(total * 0.25f));
+            int gunners = Mathf.Max(1, Mathf.RoundToInt(total * 0.35f));
+            int zombies = Mathf.Max(0, total - brutes - gunners);
             Total = brutes + gunners + zombies;
 
             float health = 24f + 5f * round;
             float damageScale = 0.65f + 0.07f * round;
+            float bodyHeight = TargetBodyHeight(player);
 
             for (int i = 0; i < brutes; i++)
-                SpawnUnit(EnemyRole.Brute, health, damageScale, player, center, radius, i);
+                SpawnUnit(EnemyRole.Brute, health, damageScale, player, center, radius, i, bodyHeight);
             for (int i = 0; i < gunners; i++)
-                SpawnUnit(EnemyRole.Gunner, health, damageScale, player, center, radius, 100 + i);
+                SpawnUnit(EnemyRole.Gunner, health, damageScale, player, center, radius, 100 + i, bodyHeight);
             for (int i = 0; i < zombies; i++)
-                SpawnZombie(player, center, radius);
+                SpawnZombie(player, center, radius, bodyHeight);
+        }
+
+        /// <summary>
+        /// How tall the player's own body is, so the wave matches them. Measured off the humanoid
+        /// under the player rather than the player root: the root also carries the camera and the
+        /// weapon viewmodel, which would inflate the reading.
+        /// </summary>
+        static float TargetBodyHeight(PlayerController player)
+        {
+            if (player == null) return ModelHeight.Fallback;
+
+            var animator = player.GetComponentInChildren<Animator>(true);
+            float height = animator != null ? ModelHeight.Measure(animator.transform) : 0f;
+
+            return height > 0.5f ? height : ModelHeight.Fallback;
         }
 
         /// <summary>Wipes the wave from outside — used when the sector is left or the run restarts.</summary>
@@ -83,48 +104,65 @@ namespace Slotgun
         }
 
         void SpawnUnit(EnemyRole role, float health, float damageScale, PlayerController player,
-                       Vector3 center, float radius, int seed)
+                       Vector3 center, float radius, int seed, float bodyHeight)
         {
             var go = new GameObject(role.ToString());
             go.transform.position = SpawnPoint(player, center, radius);
 
             var unit = go.AddComponent<EnemyUnit>();
             unit.Initialize(role, health, player, null, center, radius, damageScale, seed * 7919 + _round,
-                            ModelFor(role));
+                            ModelFor(role), bodyHeight);
+
+            // The wave closes in and swings: these are the packs' melee bodies, not the squad boss's
+            // gunner and medic, which keep their ranged and support jobs.
+            unit.meleeOnly = true;
+
             unit.Died += OnUnitDied;
             _units.Add(unit);
         }
 
-        void SpawnZombie(PlayerController player, Vector3 center, float radius)
+        void SpawnZombie(PlayerController player, Vector3 center, float radius, float bodyHeight)
         {
             var go = new GameObject("Zombie");
             go.transform.position = SpawnPoint(player, center, radius);
 
             var zombie = go.AddComponent<ZombieEnemyUnit>();
-            zombie.Initialize(go.transform.position, player, RandomZombieModel());
+            zombie.Initialize(go.transform.position, player, RandomZombieModel(), bodyHeight);
             zombie.Died += OnZombieDied;
             _zombies.Add(zombie);
         }
 
         GameObject ModelFor(EnemyRole role)
         {
+            GameObject pick = PickRandom(enemyModels);
+            if (pick != null) return pick;
+
             return role == EnemyRole.Brute ? armoredSkeletonModel : skeletonModel;
         }
 
         GameObject RandomZombieModel()
         {
-            if (zombieModels == null || zombieModels.Length == 0) return null;
+            GameObject pick = PickRandom(enemyModels);
+            if (pick != null) return pick;
+
+            return PickRandom(zombieModels);
+        }
+
+        /// <summary>One body from a pool, skipping empty slots, or null when the pool has nothing in it.</summary>
+        static GameObject PickRandom(GameObject[] pool)
+        {
+            if (pool == null || pool.Length == 0) return null;
 
             int count = 0;
-            for (int i = 0; i < zombieModels.Length; i++)
-                if (zombieModels[i] != null) count++;
+            for (int i = 0; i < pool.Length; i++)
+                if (pool[i] != null) count++;
             if (count == 0) return null;
 
             int pick = Random.Range(0, count);
-            for (int i = 0; i < zombieModels.Length; i++)
+            for (int i = 0; i < pool.Length; i++)
             {
-                if (zombieModels[i] == null) continue;
-                if (pick-- == 0) return zombieModels[i];
+                if (pool[i] == null) continue;
+                if (pick-- == 0) return pool[i];
             }
             return null;
         }

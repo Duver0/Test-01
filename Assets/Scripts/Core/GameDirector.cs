@@ -34,6 +34,8 @@ namespace Slotgun
         public float arenaRadius = 30f;
 
         [Header("Enemy models (optional)")]
+        [Tooltip("Every low-poly enemy body in the project, minus the player's own character. The wave draws from this pool, so the crowd is never one pack repeated.")]
+        public GameObject[] enemyModels;
         [Tooltip("Zombie pack characters used for the shambling bodies of a wave.")]
         public GameObject[] zombieModels;
         [Tooltip("Body used by gunners, medics and the wave's gunner bodies.")]
@@ -266,6 +268,7 @@ namespace Slotgun
             _wave.zombieModels = zombieModels;
             _wave.skeletonModel = skeletonModel;
             _wave.armoredSkeletonModel = armoredSkeletonModel;
+            _wave.enemyModels = enemyModels;
             _wave.Spawn(Round, player, arenaCenter, arenaRadius);
 
             Say($"OLEADA · ELIMINA A LOS {_wave.Total} ENEMIGOS");

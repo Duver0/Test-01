@@ -433,8 +433,15 @@ namespace Slotgun
 
         void BuildCrosshair()
         {
+            // A dark plate behind the reticle: the muted accent alone disappeared against the tan
+            // ground and against the pale sky, and a reticle you cannot find is not a reticle.
+            var back = Node(_root, "CrosshairBack", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                            Vector2.zero, new Vector2(14f, 14f)).gameObject.AddComponent<Image>();
+            back.color = new Color(Palette.Shadow.r, Palette.Shadow.g, Palette.Shadow.b, 0.7f);
+            back.raycastTarget = false;
+
             _crosshair = Node(_root, "Crosshair", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                              Vector2.zero, new Vector2(10f, 10f)).gameObject.AddComponent<Image>();
+                              Vector2.zero, new Vector2(8f, 8f)).gameObject.AddComponent<Image>();
             _crosshair.color = Palette.Accent;
             _crosshair.raycastTarget = false;
 
@@ -718,6 +725,14 @@ namespace Slotgun
             text.horizontalOverflow = HorizontalWrapMode.Wrap;
             text.verticalOverflow = VerticalWrapMode.Overflow;
             text.raycastTarget = false;
+
+            // The daylight arena is pale, so a muted label on a bright sky had no contrast left.
+            // An ink outline buys it back without putting any saturated colour back in the HUD.
+            var outline = go.AddComponent<Outline>();
+            outline.effectColor = new Color(Palette.UIInk.r, Palette.UIInk.g, Palette.UIInk.b, 0.9f);
+            outline.effectDistance = new Vector2(1f, -1f);
+            outline.useGraphicAlpha = false;
+
             return text;
         }
 
